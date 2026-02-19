@@ -1,19 +1,29 @@
 # Omamac
 
-Omamac is a keyboard-centric setup for macOS designed for developers working with the terminal. It's inspired by [Omarchy](https://omarchy.org/), and shares the same [Omadots](https://github.com/omacom-io/omadots) for the shell.
+Omamac is a keyboard-centric macOS setup inspired by [Omarchy](https://omarchy.org/). It keeps the same terminal-first philosophy and Omadots shell foundation, but uses a native macOS stack:
 
-It's built on Rectangle Pro for window positioning, Hammerspoon for window navigation, hotkeys for workspace navigation, and Raycast for app launching. It also sets up all the basic developer tooling needed for a Terminal-driven workflow centered around Tmux.
+- `AeroSpace` for tiling/workspaces
+- `Karabiner-Elements` for key translation (Super-like behavior on Mac keyboards)
+- `Raycast` for launcher/workflow actions
 
 ## Install
 
 ```bash
-curl -fsSL https://omamac.org/install | bash
+git clone https://github.com/omacom-io/omamac.git
+cd omamac
+./install.sh
+```
+
+`install.sh` honors `OMAMAC_REPO` if you want to point at your own fork:
+
+```bash
+OMAMAC_REPO="https://github.com/<you>/omamac.git" ./install.sh
 ```
 
 ## What it sets up
 
-- **Window Management**: Rectangle Pro, Hammerspoon, Raycast
-- **Terminal**: Alacritty, Tmux
+- **Window Management**: AeroSpace, Karabiner-Elements, Raycast
+- **Terminal**: Ghostty, Tmux
 - **Shell**: Starship prompt, fzf, eza, zoxide
 - **Editors**: nvim, opencode, claude-code
 - **Dev tools**: mise (Ruby, Node.js), Docker, lazygit, lazydocker
@@ -21,99 +31,86 @@ curl -fsSL https://omamac.org/install | bash
 - **Networking**: Tailscale
 - **Git**: Helpful aliases and config
 
+## Super key model (Omarchy-like)
+
+The bundled Karabiner profile swaps **Left Command** and **Left Option**. With that enabled:
+
+- physical `Cmd` behaves like Omarchy `Super`
+- physical `Option` behaves like macOS `Cmd`
+
+If you disable that swap, use `Option` for AeroSpace bindings instead of `Cmd`.
+
 ## Hotkeys
 
-### Window Navigation (Hammerspoon)
+### Window + Workspace (AeroSpace)
 
 | Hotkey | Action |
 |--------|--------|
-| `Cmd + Ctrl + →` | Focus window to the right |
-| `Cmd + Ctrl + ←` | Focus window to the left |
-| `Cmd + Ctrl + ↑` | Focus window above |
-| `Cmd + Ctrl + ↓` | Focus window below |
+| `Cmd + Arrow` | Focus window by direction |
+| `Cmd + Shift + Arrow` | Swap with window by direction |
+| `Cmd + W` | Close window |
+| `Cmd + T` | Toggle floating/tiling |
+| `Cmd + F` | Fullscreen |
+| `Cmd + Tab` | Next workspace |
+| `Cmd + Shift + Tab` | Previous workspace |
+| `Cmd + Ctrl + Tab` | Back-and-forth workspace |
+| `Cmd + 1..0` | Jump to workspace |
+| `Cmd + Shift + 1..0` | Move window to workspace |
+| `Cmd + Ctrl + 1..0` | Move window to workspace and follow |
+| `Cmd + = / -` | Resize width |
+| `Cmd + Shift + = / -` | Resize height |
+| `Cmd + Ctrl + H / L` | Focus monitor left/right |
+| `Cmd + Ctrl + Shift + H / L` | Move window to monitor left/right |
 
-### Window Positioning (Rectangle Pro)
-
-| Hotkey | Action |
-|--------|--------|
-| `Cmd + Ctrl + ←` | Left Half |
-| `Cmd + Ctrl + →` | Right Half |
-| `Cmd + Ctrl + ↑` | Top Left Quarter |
-| `Cmd + Ctrl + ↓` | Bottom Left Quarter |
-| `Cmd + Ctrl + Shift + ↑` | Top Right Quarter |
-| `Cmd + Ctrl + Shift + ↓` | Bottom Right Quarter |
-| `Cmd + Ctrl + ⌥ + ←` | First Fourth (Left) |
-| `Cmd + Ctrl + ⌥ + →` | Last Fourth (Right) |
-| `Cmd + Ctrl + ⌥ + ↑` | Top Left Eighth |
-| `Cmd + Ctrl + ⌥ + ↓` | Bottom Left Eighth |
-| `Cmd + Ctrl + ⌥ + Shift + ↑` | Top Right Eighth |
-| `Cmd + Ctrl + ⌥ + Shift + ↓` | Bottom Right Eighth |
-| `Cmd + Ctrl + Return` | Center Half |
-| `Cmd + Ctrl + ⌥ + Return` | Maximize |
-
-### Application Launching (Raycast)
+### App launching (AeroSpace)
 
 | Hotkey | Action |
 |--------|--------|
-| `Cmd + Space` | Launcher |
-| `Cmd + Ctrl + Return` | Launch Terminal (Alacritty) |
-| `Cmd + Ctrl + Shift + Return` | Launch Browser (Chrome) |
+| `Cmd + Space` | Raycast |
+| `Cmd + Enter` | Ghostty |
+| `Cmd + Shift + B` | Google Chrome |
+| `Cmd + Shift + F` | Finder |
+| `Cmd + Shift + N` | Ghostty + Neovim |
+| `Cmd + Shift + D` | Ghostty + LazyDocker |
+| `Cmd + Shift + A` | ChatGPT |
+| `Cmd + Shift + O` | Obsidian |
+| `Cmd + Shift + M` | Spotify |
+| `Cmd + Shift + /` | 1Password |
+| `Cmd + Shift + G` | Signal |
+| `Cmd + Shift + Option + G` | WhatsApp |
+
+### Clipboard compatibility (Karabiner)
+
+| Hotkey | Action |
+|--------|--------|
+| `Ctrl + C/V/X/Z/A` | Remapped to `Cmd + C/V/X/Z/A` |
+| `Ctrl + Shift + Z` | Remapped to `Cmd + Shift + Z` |
+| `Right Cmd + <key>` | Bypass remapping for edge cases |
 
 ### Terminal (Tmux)
 
-You launch tmux with `t` in a new terminal (`Ctrl + Cmd + Return`).
+You launch tmux with `t` in a new terminal.
 
 **Prefix key:** `Ctrl + Space` (secondary: `Ctrl + b`)
-
-**Pane Management:**
 
 | Hotkey | Action |
 |--------|--------|
 | `Ctrl + Cmd + PageUp` | Split horizontally |
 | `Ctrl + Cmd + PageDown` | Split vertically |
-| `Ctrl + Cmd + Home` | Split horizontally |
 | `Ctrl + Cmd + End` | Kill pane |
-| `Ctrl + Cmd + ←` | Focus left pane |
-| `Ctrl + Cmd + →` | Focus right pane |
-| `Ctrl + Cmd + ↑` | Focus up pane |
-| `Ctrl + Cmd + ↓` | Focus down pane |
-| `Ctrl + Cmd + Shift + ←` | Resize left |
-| `Ctrl + Cmd + Shift + ↓` | Resize down |
-| `Ctrl + Cmd + Shift + ↑` | Resize up |
-| `Ctrl + Cmd + Shift + →` | Resize right |
-
-**Window Management:**
-
-| Hotkey | Action |
-|--------|--------|
+| `Ctrl + Cmd + Arrow` | Focus pane by direction |
+| `Ctrl + Cmd + Shift + Arrow` | Resize pane by direction |
 | `Ctrl + Shift + Home` | New window |
 | `Ctrl + Shift + End` | Kill window |
-| `Ctrl + Shift + PageUp` | Next window |
-| `Ctrl + Shift + PageDown` | Previous window |
-| `Ctrl + Space x` | Kill window |
-| `Ctrl + Space r` | Rename window |
-
-**Session Management:**
-
-| Hotkey | Action |
-|--------|--------|
+| `Ctrl + Shift + PageUp/Down` | Next/previous window |
 | `Ctrl + Cmd + Shift + Home` | New session |
 | `Ctrl + Cmd + Shift + End` | Kill session |
-| `Ctrl + Cmd + Shift + PageUp` | Previous session |
-| `Ctrl + Cmd + Shift + PageDown` | Next session |
-| `Ctrl + Space R` | Rename session |
-| `Ctrl + Space X` | Kill session |
+| `Ctrl + Space q` | Reload tmux config |
 
-**Copy Mode (Vi):**
+## Post-install checklist
 
-| Hotkey | Action |
-|--------|--------|
-| `v` | Begin selection |
-| `y` | Copy selection |
-
-**Other:**
-
-| Hotkey | Action |
-|--------|--------|
-| `Ctrl + Space q` | Reload config |
-
+1. Open `Karabiner-Elements` and confirm `Default profile` is selected.
+2. Grant Accessibility permissions for `AeroSpace` and `Karabiner-Elements`.
+3. Disable conflicting macOS shortcuts (Spotlight, Mission Control, Desktop switching).
+4. Optionally import `~/.config/raycast/Raycast.rayconfig` (password: `12345678`).
+5. Log out and back in once.

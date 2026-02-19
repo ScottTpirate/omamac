@@ -21,6 +21,13 @@ install() {
   section "Permission needed for setup..."
   sudo echo "✓ Granted"
 
+  backup_file_if_exists() {
+    local file="$1"
+    if [[ -f "$file" ]]; then
+      cp "$file" "${file}.bak.$(date +%Y%m%d_%H%M%S)"
+    fi
+  }
+
   # Install all packages from Brew
   if ! command -v brew &> /dev/null; then
     section "Installing brew..."
@@ -30,7 +37,7 @@ install() {
   fi
 
   # Clone
-  REPO="https://github.com/omacom-io/omamac.git"
+  REPO="${OMAMAC_REPO:-https://github.com/omacom-io/omamac.git}"
   INSTALLER_DIR="$(mktemp -d)"
   trap 'rm -rf "$INSTALLER_DIR"' EXIT
 
@@ -41,10 +48,6 @@ install() {
   packages=(tmux mise nvim opencode lazygit lazydocker starship zoxide eza jq gum gh libyaml)
   for pkg in $packages; do brew install "$pkg" || true; done
 
-  # Install Alacritty manually from GitHub releases
-  section "Installing Alacritty..."
-  . "$INSTALLER_DIR/install/alacritty.sh"
-
   # Install Omadots
   curl -fsSL https://raw.githubusercontent.com/omacom-io/omadots/refs/heads/master/install.sh | zsh
 
@@ -54,7 +57,7 @@ install() {
 
   # Install secondary apps
   section "Installing apps..."
-  casks=(rectangle-pro hammerspoon font-jetbrains-mono-nerd-font docker-desktop google-chrome claude-code raycast)
+  casks=(aerospace karabiner-elements ghostty font-jetbrains-mono-nerd-font docker-desktop google-chrome claude-code raycast)
   for cask in $casks; do brew install --cask "$cask" || true; done
 
   # Install optional apps
@@ -81,9 +84,20 @@ install() {
   section "Configuring Mac..."
   mkdir -p "$HOME/.config"
   cp -Rf "$INSTALLER_DIR/config/"* "$HOME/.config/"
+
+  mkdir -p "$HOME/.config/karabiner"
+  backup_file_if_exists "$HOME/.config/karabiner/karabiner.json"
+  cp "$INSTALLER_DIR/config/karabiner/karabiner.json" "$HOME/.config/karabiner/karabiner.json"
+
+  backup_file_if_exists "$HOME/.aerospace.toml"
+  cp "$INSTALLER_DIR/config/aerospace/aerospace.toml" "$HOME/.aerospace.toml"
+
   for dir in "$INSTALLER_DIR/config"/*/; do
     echo "✓ $(basename "$dir")"
   done
+
+  echo "✓ ~/.aerospace.toml"
+  echo "✓ ~/.config/karabiner/karabiner.json"
 
   # Create hush file to suppress "Last login" message
   touch "$HOME/.hushlogin"
@@ -92,23 +106,20 @@ install() {
   . "$INSTALLER_DIR/install/mac.sh"
   echo "✓ Settings"
 
-  # Correct hammerspoon config location
-  defaults write org.hammerspoon.Hammerspoon MJConfigFile "$HOME/.config/hammerspoon/init.lua"
-
   # Done!
   section "Finished!"
-  echo "1. You must manually create the nine default workspaces with F3"
-  echo "2. Manually disable all Keyboard Shortcuts for Windows + Spotlight + Mission Control"
-  echo "3. Manually enable 'Switch to Desktop' Keyboard Shortcuts on CMD-[1-9]"
-  echo "4. Manually import Rectangle Pro config from ~/.config/rectangle/RectangleProConfig.json (reveal hidden with Cmd + Shift + . in Finder)"
-  echo "5. Manually import Raycast config from ~/.config/raycast/Raycast.rayconfig with pw: 12345678"
-  echo "6. Remember to authenticate with: gh auth login"
-  echo "7. Then logout and back in for everything to take effect (Cmd + Shift + Q)"
+  echo "1. Open Karabiner-Elements and ensure the Default profile is selected."
+  echo "2. Grant Accessibility permissions for AeroSpace and Karabiner-Elements."
+  echo "3. Disable conflicting macOS shortcuts (Spotlight, Mission Control, Desktop switching)."
+  echo "4. Optionally import Raycast config from ~/.config/raycast/Raycast.rayconfig (password: 12345678)."
+  echo "5. Remember to authenticate with: gh auth login"
+  echo "6. Log out and back in for all keyboard hooks to apply cleanly."
 
-  open -a "Hammerspoon"
-  open -a "Rectangle Pro"
-  open -a "Raycast"
-  open -a "Tailscale"
+  open -a "AeroSpace" || true
+  open -a "Karabiner-Elements" || true
+  open -a "Raycast" || true
+  open -a "Ghostty" || true
+  open -a "Tailscale" || true
 }
 
 # Must use a function to prevent brew installs from stealing stdin
