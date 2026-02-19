@@ -37,7 +37,9 @@ install() {
   fi
 
   # Clone
-  REPO="${OMAMAC_REPO:-https://github.com/omacom-io/omamac.git}"
+  SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+  LOCAL_REPO_URL="$(git -C "$SCRIPT_DIR" config --get remote.origin.url 2>/dev/null || true)"
+  REPO="${OMAMAC_REPO:-${LOCAL_REPO_URL:-https://github.com/omacom-io/omamac.git}}"
   INSTALLER_DIR="$(mktemp -d)"
   trap 'rm -rf "$INSTALLER_DIR"' EXIT
 
