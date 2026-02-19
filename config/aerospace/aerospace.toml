@@ -14,11 +14,13 @@ on-focus-changed = ['move-mouse window-lazy-center']
 [mode.main.binding]
 # Launchers / apps (Omarchy-ish)
 alt-space = 'exec-and-forget open -na "Raycast"'
-alt-enter = 'exec-and-forget open -na "Ghostty"'
+alt-cmd-space = 'exec-and-forget open -na "Raycast"'
+alt-enter = 'exec-and-forget open -na "Alacritty"'
 alt-shift-b = 'exec-and-forget open -na "Google Chrome"'
+alt-shift-cmd-b = 'exec-and-forget open -na "Google Chrome" --args --incognito'
 alt-shift-f = 'exec-and-forget open -na "Finder"'
-alt-shift-n = 'exec-and-forget open -na "Ghostty" --args -e nvim'
-alt-shift-d = 'exec-and-forget open -na "Ghostty" --args -e lazydocker'
+alt-shift-n = 'exec-and-forget open -na "Alacritty" --args -e nvim'
+alt-shift-d = 'exec-and-forget open -na "Alacritty" --args -e lazydocker'
 alt-shift-a = 'exec-and-forget open -na "ChatGPT"'
 alt-shift-o = 'exec-and-forget open -na "Obsidian"'
 alt-shift-m = 'exec-and-forget open -na "Spotify"'
@@ -62,13 +64,18 @@ alt-ctrl-right = 'move right'
 # Window modes and layout
 alt-w = 'close --quit-if-last-window'
 alt-t = 'layout floating tiling'
-alt-shift-space = 'layout floating tiling'
+alt-o = 'macos-native-minimize'
 alt-f = 'fullscreen'
 f11 = 'fullscreen'
-alt-s = 'layout v_accordion'
-alt-backslash = 'layout h_accordion'
+alt-backslash = 'layout tiles horizontal vertical'
+alt-cmd-backslash = 'layout h_accordion'
+alt-g = 'layout v_accordion'
 alt-b = 'balance-sizes'
-alt-ctrl-b = 'flatten-workspace-tree'
+alt-cmd-b = 'flatten-workspace-tree'
+
+# Scratchpad-like workspace
+alt-s = 'workspace scratchpad'
+alt-cmd-s = 'move-node-to-workspace scratchpad'
 
 # Resizing (maps well to Omarchy +/- patterns)
 alt-equal = 'resize width +50'
@@ -129,8 +136,28 @@ alt-ctrl-h = 'focus-monitor left'
 alt-ctrl-l = 'focus-monitor right'
 alt-ctrl-comma = 'move-workspace-to-monitor prev --wrap-around'
 alt-ctrl-period = 'move-workspace-to-monitor next --wrap-around'
+alt-shift-cmd-left = 'move-workspace-to-monitor left'
+alt-shift-cmd-right = 'move-workspace-to-monitor right'
 alt-ctrl-shift-h = 'move-node-to-monitor left --focus-follows-window'
 alt-ctrl-shift-l = 'move-node-to-monitor right --focus-follows-window'
+
+# System controls (best-effort macOS equivalents)
+alt-esc = 'exec-and-forget /System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend'
+alt-cmd-l = 'exec-and-forget /System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend'
+alt-ctrl-a = 'exec-and-forget open -na "Audio MIDI Setup"'
+alt-ctrl-b = 'exec-and-forget open "x-apple.systempreferences:com.apple.BluetoothSettings"'
+alt-ctrl-w = 'exec-and-forget open "x-apple.systempreferences:com.apple.wifi-settings-extension"'
+alt-ctrl-s = 'exec-and-forget open -na "LocalSend"'
+alt-ctrl-t = 'exec-and-forget open -na "Activity Monitor"'
+
+# Capture (best-effort macOS equivalents)
+alt-cmd-shift-4 = 'exec-and-forget screencapture -i -c'
+alt-cmd-shift-5 = 'exec-and-forget open -na "Screenshot"'
+alt-cmd-shift-6 = 'exec-and-forget open -na "QuickTime Player"'
+alt-cmd-shift-7 = 'exec-and-forget open -na "Digital Color Meter"'
+
+# Clipboard manager
+alt-ctrl-v = 'exec-and-forget open "raycast://extensions/raycast/clipboard-history/clipboard-history"'
 
 # Reload / modes
 alt-shift-c = 'reload-config'

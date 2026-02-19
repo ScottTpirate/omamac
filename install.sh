@@ -40,6 +40,7 @@ install() {
   SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
   LOCAL_REPO_URL="$(git -C "$SCRIPT_DIR" config --get remote.origin.url 2>/dev/null || true)"
   REPO="${OMAMAC_REPO:-${LOCAL_REPO_URL:-https://github.com/omacom-io/omamac.git}}"
+  OMADOTS_REF="${OMADOTS_REF:-d20aa9aa6ab90d05ebfe2357595cef03a23d44cb}"
   INSTALLER_DIR="$(mktemp -d)"
   trap 'rm -rf "$INSTALLER_DIR"' EXIT
 
@@ -50,8 +51,12 @@ install() {
   packages=(tmux mise nvim opencode lazygit lazydocker starship zoxide eza jq gum gh libyaml)
   for pkg in $packages; do brew install "$pkg" || true; done
 
+  section "Installing Alacritty..."
+  . "$INSTALLER_DIR/install/alacritty.sh"
+
   # Install Omadots
-  curl -fsSL https://raw.githubusercontent.com/omacom-io/omadots/refs/heads/master/install.sh | zsh
+  section "Installing Omadots (${OMADOTS_REF})..."
+  curl -fsSL "https://raw.githubusercontent.com/omacom-io/omadots/${OMADOTS_REF}/install.sh" | zsh
 
   section "Configuring brew init..."
   echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>"$HOME/.config/shell/inits"
@@ -59,7 +64,7 @@ install() {
 
   # Install secondary apps
   section "Installing apps..."
-  casks=(aerospace karabiner-elements ghostty font-jetbrains-mono-nerd-font docker-desktop google-chrome claude-code raycast)
+  casks=(aerospace karabiner-elements font-jetbrains-mono-nerd-font docker-desktop google-chrome claude-code raycast)
   for cask in $casks; do brew install --cask "$cask" || true; done
 
   # Install optional apps
@@ -113,14 +118,15 @@ install() {
   echo "1. Open Karabiner-Elements and ensure the Default profile is selected."
   echo "2. Grant Accessibility permissions for AeroSpace and Karabiner-Elements."
   echo "3. Disable conflicting macOS shortcuts (Spotlight, Mission Control, Desktop switching)."
-  echo "4. Optionally import Raycast config from ~/.config/raycast/Raycast.rayconfig (password: 12345678)."
-  echo "5. Remember to authenticate with: gh auth login"
-  echo "6. Log out and back in for all keyboard hooks to apply cleanly."
+  echo "4. Tmux will use ~/.config/tmux/tmux.conf directly (no symlink needed)."
+  echo "5. Optionally import Raycast config from ~/.config/raycast/Raycast.rayconfig (password: 12345678)."
+  echo "6. Remember to authenticate with: gh auth login"
+  echo "7. Log out and back in for all keyboard hooks to apply cleanly."
 
   open -a "AeroSpace" || true
   open -a "Karabiner-Elements" || true
   open -a "Raycast" || true
-  open -a "Ghostty" || true
+  open -a "Alacritty" || true
   open -a "Tailscale" || true
 }
 
