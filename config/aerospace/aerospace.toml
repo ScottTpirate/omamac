@@ -21,12 +21,18 @@ alt-shift-cmd-b = 'exec-and-forget open -na "Google Chrome" --args --incognito'
 alt-shift-f = 'exec-and-forget open -na "Finder"'
 alt-shift-n = 'exec-and-forget open -na "Alacritty" --args -e nvim'
 alt-shift-d = 'exec-and-forget open -na "Alacritty" --args -e lazydocker'
+alt-shift-c = 'exec-and-forget open -na "Google Chrome" --args --app=https://app.hey.com/calendar'
+alt-shift-e = 'exec-and-forget open -na "Google Chrome" --args --app=https://app.hey.com'
 alt-shift-a = 'exec-and-forget open -na "ChatGPT"'
 alt-shift-o = 'exec-and-forget open -na "Obsidian"'
 alt-shift-m = 'exec-and-forget open -na "Spotify"'
 alt-shift-slash = 'exec-and-forget open -na "1Password"'
 alt-shift-g = 'exec-and-forget open -na "Signal"'
 alt-shift-cmd-g = 'exec-and-forget open -na "WhatsApp"'
+alt-shift-ctrl-g = 'exec-and-forget open -na "Google Chrome" --args --app=https://messages.google.com/web'
+alt-shift-x = 'exec-and-forget open -na "Google Chrome" --args --app=https://x.com'
+alt-shift-cmd-x = 'exec-and-forget open -na "Google Chrome" --args --app=https://x.com/compose/post'
+alt-shift-y = 'exec-and-forget open -na "Google Chrome" --args --app=https://youtube.com'
 
 # Workspace navigation
 alt-tab = 'workspace --wrap-around next'
@@ -42,7 +48,6 @@ alt-up = 'focus --boundaries-action wrap-around-the-workspace up'
 alt-right = 'focus --boundaries-action wrap-around-the-workspace right'
 alt-h = 'focus --boundaries-action wrap-around-the-workspace left'
 alt-j = 'focus --boundaries-action wrap-around-the-workspace down'
-alt-k = 'focus --boundaries-action wrap-around-the-workspace up'
 alt-l = 'focus --boundaries-action wrap-around-the-workspace right'
 
 # Swap windows
@@ -52,7 +57,6 @@ alt-shift-up = 'swap up'
 alt-shift-right = 'swap right'
 alt-shift-h = 'swap left'
 alt-shift-j = 'swap down'
-alt-shift-k = 'swap up'
 alt-shift-l = 'swap right'
 
 # Move window
@@ -159,8 +163,11 @@ alt-cmd-shift-7 = 'exec-and-forget open -na "Digital Color Meter"'
 # Clipboard manager
 alt-ctrl-v = 'exec-and-forget open "raycast://extensions/raycast/clipboard-history/clipboard-history"'
 
+# Hotkeys reference
+alt-k = 'exec-and-forget qlmanage -p "$HOME/.config/omamac/hotkeys.md" >/dev/null 2>&1'
+
 # Reload / modes
-alt-shift-c = 'reload-config'
+alt-shift-r = 'reload-config'
 alt-r = 'mode resize'
 
 [mode.resize.binding]

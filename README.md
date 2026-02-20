@@ -82,12 +82,18 @@ If you disable that swap, use `Option` for AeroSpace bindings instead of `Cmd`.
 | `Cmd + Shift + F` | Finder |
 | `Cmd + Shift + N` | Alacritty + Neovim |
 | `Cmd + Shift + D` | Alacritty + LazyDocker |
+| `Cmd + Shift + C` | HEY Calendar (Chrome app window) |
+| `Cmd + Shift + E` | HEY Email (Chrome app window) |
 | `Cmd + Shift + A` | ChatGPT |
 | `Cmd + Shift + O` | Obsidian |
 | `Cmd + Shift + M` | Spotify |
 | `Cmd + Shift + /` | 1Password |
 | `Cmd + Shift + G` | Signal |
 | `Cmd + Shift + Option + G` | WhatsApp |
+| `Cmd + Shift + Ctrl + G` | Google Messages (Chrome app window) |
+| `Cmd + Shift + X` | X (Chrome app window) |
+| `Cmd + Shift + Option + X` | X New Post (Chrome app window) |
+| `Cmd + Shift + Y` | YouTube (Chrome app window) |
 
 ### System + capture (macOS approximations)
 
@@ -105,6 +111,7 @@ If you disable that swap, use `Option` for AeroSpace bindings instead of `Cmd`.
 | `Cmd + Option + Shift + 6` | QuickTime Player |
 | `Cmd + Option + Shift + 7` | Digital Color Meter |
 | `Cmd + Ctrl + V` | Raycast clipboard history |
+| `Cmd + K` | Open hotkeys reference overlay |
 
 ### Clipboard compatibility (Karabiner)
 
@@ -144,4 +151,5 @@ Omadots installs tmux config to `~/.config/tmux/tmux.conf`. Modern tmux reads th
 2. Grant Accessibility permissions for `AeroSpace` and `Karabiner-Elements`.
 3. Confirm conflicting macOS shortcuts are disabled (Spotlight, Mission Control, Desktop switching).
 4. Optionally import `~/.config/raycast/Raycast.rayconfig` (password: `12345678`).
-5. Log out and back in once.
+5. `Cmd + K` opens the Omamac hotkeys reference (`~/.config/omamac/hotkeys.md`).
+6. Log out and back in once.
