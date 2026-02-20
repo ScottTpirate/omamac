@@ -64,8 +64,11 @@ install() {
 
   # Install secondary apps
   section "Installing apps..."
-  casks=(aerospace karabiner-elements font-jetbrains-mono-nerd-font docker-desktop google-chrome claude-code raycast)
-  for cask in $casks; do brew install --cask "$cask" || true; done
+  brew tap nikitabobko/tap || true
+  casks=(nikitabobko/tap/aerospace karabiner-elements font-jetbrains-mono-nerd-font docker-desktop google-chrome claude-code raycast)
+  for cask in $casks; do
+    brew install --cask "$cask" || echo "⚠ Failed to install cask: $cask"
+  done
 
   # Install optional apps
   section "Installing optional apps..."
@@ -90,11 +93,20 @@ install() {
   # Omamac configs
   section "Configuring Mac..."
   mkdir -p "$HOME/.config"
-  cp -Rf "$INSTALLER_DIR/config/"* "$HOME/.config/"
+  for dir in "$INSTALLER_DIR/config"/*/; do
+    name="$(basename "$dir")"
+    [[ "$name" == "aerospace" ]] && continue
+    cp -Rf "$dir" "$HOME/.config/"
+  done
 
   mkdir -p "$HOME/.config/karabiner"
   backup_file_if_exists "$HOME/.config/karabiner/karabiner.json"
   cp "$INSTALLER_DIR/config/karabiner/karabiner.json" "$HOME/.config/karabiner/karabiner.json"
+
+  if [[ -f "$HOME/.config/aerospace/aerospace.toml" ]]; then
+    backup_file_if_exists "$HOME/.config/aerospace/aerospace.toml"
+    rm -f "$HOME/.config/aerospace/aerospace.toml"
+  fi
 
   backup_file_if_exists "$HOME/.aerospace.toml"
   cp "$INSTALLER_DIR/config/aerospace/aerospace.toml" "$HOME/.aerospace.toml"
